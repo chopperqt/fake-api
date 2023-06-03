@@ -1,10 +1,27 @@
-export class FakeDto {
-  schema: Schema<TPerson | TPhone>;
-  count?: number;
+import { Contains, IsNotEmpty, IsString } from 'class-validator';
+
+const PersonMethods = 'firstName' || 'sex' || 'lastName' || 'jobTitle';
+const PhoneMethods = 'imei' || 'number';
+const Methods = PersonMethods || PhoneMethods;
+
+export class FakeItemDto {
+  @IsNotEmpty()
+  @IsString()
+  @Contains('person' || 'phone')
+  type: Model;
+  @IsString()
+  @IsNotEmpty()
+  @Contains(Methods)
+  method: TPerson & TPhone;
+  options: any;
 }
 
-interface Schema<T> {
-  [key: string]: Item<T>;
+export class FakeDto {
+  @IsNotEmpty()
+  schema: {
+    [key: string]: FakeItemDto;
+  };
+  count?: number;
 }
 
 interface Item<T> {
@@ -15,7 +32,7 @@ interface Item<T> {
 
 type Model = 'person' | 'phone';
 type PersonMethod = 'firstName' | 'sex' | 'lastName' | 'jobTitle';
-type PhoneMethod = 'emai' | 'phone';
+type PhoneMethod = 'imei' | 'phone';
 
 type TPerson = Item<PersonMethod>;
 type TPhone = Item<PhoneMethod>;

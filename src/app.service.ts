@@ -4,18 +4,6 @@ import { fakerRU } from '@faker-js/faker';
 
 const { person, phone } = fakerRU;
 
-interface Schema {
-  person: {
-    key: string;
-    method: string;
-    options?: any;
-  }[];
-}
-
-interface Props {
-  schema: Schema;
-}
-
 const PersonModel = {
   firstName: person.firstName,
   sex: person.sex,

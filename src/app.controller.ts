@@ -15,11 +15,9 @@ export class AppController {
 
   @Get()
   @UsePipes(new ValidationPipe())
-  getHello(@Body() body: FakeDto): any {
-    const formattedBody = Object.entries(body.schema);
+  getHello(@Body() { schema, count }: FakeDto): any {
+    const formattedBody = Object.entries(schema);
 
-    console.log(body.count);
-
-    return this.appService.getHello(formattedBody);
+    return this.appService.getHello(formattedBody, count);
   }
 }

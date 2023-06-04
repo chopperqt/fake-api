@@ -1,39 +1,39 @@
 import { Injectable } from '@nestjs/common';
 
-import { fakerRU } from '@faker-js/faker';
 import { FakeItemDto } from './dto/fake.dto';
-
-const { person, phone } = fakerRU;
-
-const PersonModel = {
-  firstName: person.firstName,
-  sex: person.sex,
-  lastName: person.lastName,
-  jobTitle: person.jobTitle,
-};
-
-const PhoneModel = {
-  imei: phone.imei,
-  number: phone.number,
-};
-
-const Model = {
-  phone: PhoneModel,
-  person: PersonModel,
-};
+import { getNomralizedData } from './helpers/get-normalize-data';
 
 @Injectable()
 export class AppService {
-  getHello(schema: [key: string, item: FakeItemDto][]) {
-    let data = {};
+  getHello(schema: [key: string, item: FakeItemDto][], count?: number) {
+    if (!count || count < 1) {
+      let formattedData = {};
 
-    schema.map(([key, { type, method, options }]) => {
-      data = {
-        ...data,
-        [key]: Model[type][method](options),
-      };
-    });
+      schema.map(([key, item]) => {
+        formattedData = {
+          ...formattedData,
+          [key]: getNomralizedData(item),
+        };
+      });
 
-    return data;
+      return formattedData;
+    }
+
+    const formattedData = [];
+
+    for (let i = 0; i < count; i++) {
+      let data = {};
+
+      schema.map(([key, item]) => {
+        data = {
+          ...data,
+          [key]: getNomralizedData(item),
+        };
+      });
+
+      formattedData.push(data);
+    }
+
+    return formattedData;
   }
 }

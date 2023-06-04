@@ -1,15 +1,14 @@
-import { Contains, IsNotEmpty, IsString } from 'class-validator';
+import { Contains, IsNotEmpty } from 'class-validator';
 
 const PersonMethods = 'firstName' || 'sex' || 'lastName' || 'jobTitle';
 const PhoneMethods = 'imei' || 'number';
 const Methods = PersonMethods || PhoneMethods;
+const Models = 'person' || 'phone';
 
 export class FakeItemDto {
   @IsNotEmpty()
-  @IsString()
-  @Contains('person' || 'phone')
+  @Contains(Models)
   type: Model;
-  @IsString()
   @IsNotEmpty()
   @Contains(Methods)
   method: TPerson & TPhone;

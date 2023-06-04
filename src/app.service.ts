@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { fakerRU } from '@faker-js/faker';
+import { FakeItemDto } from './dto/fake.dto';
 
 const { person, phone } = fakerRU;
 
@@ -23,10 +24,10 @@ const Model = {
 
 @Injectable()
 export class AppService {
-  getHello(obj: any) {
+  getHello(schema: [key: string, item: FakeItemDto][]) {
     let data = {};
 
-    obj.map(([key, { type, method, options }]) => {
+    schema.map(([key, { type, method, options }]) => {
       data = {
         ...data,
         [key]: Model[type][method](options),

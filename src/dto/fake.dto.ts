@@ -1,4 +1,4 @@
-import { Contains, IsNotEmpty } from 'class-validator';
+import { Contains, IsNotEmpty, Max } from 'class-validator';
 
 const PersonMethods = 'firstName' || 'sex' || 'lastName' || 'jobTitle';
 const PhoneMethods = 'imei' || 'number';
@@ -20,6 +20,7 @@ export class FakeDto {
   schema: {
     [key: string]: FakeItemDto;
   };
+  @Max(1000)
   count?: number;
 }
 

@@ -1,11 +1,14 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 import { FakeItemDto } from 'src/dto/fake.dto';
-import { Models } from 'src/models';
+import { Faker } from '@faker-js/faker';
 
-export const getNomralizedData = ({ type, method, options }: FakeItemDto) => {
+export const getNomralizedData = (
+  { type, method, options }: FakeItemDto,
+  faker: Faker,
+) => {
   try {
-    return Models[type][method](options);
+    return faker[type][method](options);
   } catch (e) {
     throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
   }
